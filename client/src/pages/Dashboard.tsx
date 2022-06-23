@@ -13,7 +13,7 @@ const Dashboard = () => {
           setTodoList(res.data.todos);
         }
       })
-  }, [])
+  }, [todoList])
 
   return(
     <>

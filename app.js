@@ -21,10 +21,9 @@ app.post('/signup', (req, res) => {
     username: req.body.username,
     password: bcrypt.hashSync(req.body.password, 10)
   });
-  console.log('log2');
+
   newUser.save(err => {
     if (err) {
-        console.log(err, '///////////');
       return res.status(400).json({
         title: 'error',
         error: 'Email already in use'
@@ -132,29 +131,19 @@ app.post('/todo',(req, res) => {
       })
     })
   })
+  app.delete('/todo/:id', async (req,res) => {
+      try {
+          const deletee = await Todo.findByIdAndDelete(req.params.id);
+          res.status(200).json('item deleted')
+      } catch (error) {
+          res.json(error)
+      }
+  })
 
-//   app.get('/user', (req, res) => {
-//     // verify
-//     jwt.verify(req.headers.token, 'secretkey', (err, decoded) => {
-//       if (err) return res.status(401).json({
-//         title: 'not authorized'
-//       });
-  
-//       // now we know token is valid
-//       User.findOne({ _id: decoded.userId }, (err, user) => {
-//         if (err) return console.log(err);
-  
-//         return res.status(200).json({
-//           title: 'success',
-//           user: {
-//               username: user.username
-//           }
-//         });
-//       })
-//     })
-//   })
-
-
+//   Tank.deleteOne({ size: 'large' }, function (err) {
+//     if (err) return handleError(err);
+//     // deleted at most one tank document
+//   });
 
 const port = process.env.PORT || 5000;
 app.listen(port, (err) => {
